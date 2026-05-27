@@ -1,3 +1,4 @@
+require('dotenv').config({quiet: true});
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -10,7 +11,7 @@ app.use(cors());
 // dns.setDefaultResultOrder("ipv4first");
 
 mongoose
-    .connect("mongodb://lamdb:it4409-2026A@ac-xkinmm3-shard-00-00.jpbdhon.mongodb.net:27017,ac-xkinmm3-shard-00-01.jpbdhon.mongodb.net:27017,ac-xkinmm3-shard-00-02.jpbdhon.mongodb.net:27017/it4409-db?ssl=true&replicaSet=atlas-12xdrq-shard-0&authSource=admin&appName=Cluster0")
+    .connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Connected to MongoDB"); 
     })
@@ -145,6 +146,8 @@ app.delete("/api/users/:id", async (req, res) => {
     }
 });
 
-app.listen(3001, () => { 
-    console.log("Server running on http://localhost:3001"); 
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => { 
+    console.log(`Server running on http://localhost:${PORT}`); 
 }); 
